@@ -1,0 +1,12 @@
+@startuml
+abstract class "BaseSingleton`1"<T> {
+    # {static} _instance : T
+    {static} - _instanceLock : object
+    + {static} Instance : T <<get>>
+    # BaseSingleton()
+    # <<virtual>> Initialize() : void
+}
+interface ICreateInstace {
+    {abstract} {static} CreateInstace() : void
+}
+@enduml

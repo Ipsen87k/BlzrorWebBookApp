@@ -1,0 +1,5 @@
+@startuml
+class UserInputData {
+    + BookTitle : string <<get>> <<set>>
+}
+@enduml

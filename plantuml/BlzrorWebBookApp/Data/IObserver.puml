@@ -1,0 +1,5 @@
+@startuml
+interface "IObserver`1"<in T> {
+    Update(observable:T, times:int) : Task
+}
+@enduml

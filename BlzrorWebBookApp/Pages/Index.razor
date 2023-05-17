@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject NavigationManager NaviManager
+
+
+
+
+
+
+
+@code{
+	protected override void OnInitialized()
+	{
+		NaviManager.NavigateTo("/BookSearch");
+	}
+}

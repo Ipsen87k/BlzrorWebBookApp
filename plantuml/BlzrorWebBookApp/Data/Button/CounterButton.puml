@@ -1,0 +1,10 @@
+@startuml
+class Counter {
+    - _count : int = 0
+    + Increase : int <<get>> <<init>>
+    + Counter(increase:int)
+    + Count : int <<get>> <<set>>
+    + Increment() : void
+}
+ICountable <|-- Counter
+@enduml

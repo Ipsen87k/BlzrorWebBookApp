@@ -1,0 +1,13 @@
+@startuml
+class GetData {
+    - count : int = 0
+    + <<async>> Update(data:UserInputData, times:int) : Task
+}
+class "IObserver`1"<T> {
+}
+"IObserver`1" "<UserInputData>" <|-- GetData
+GetData o-> "URL" IQueryConvert
+GetData o-> "_counter" ICountable
+GetData o-> "GetHttp" GetHttpDataSingleton
+GetData o-> "storage" IStorageData
+@enduml

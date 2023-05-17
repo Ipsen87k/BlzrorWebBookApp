@@ -1,0 +1,9 @@
+@startuml
+class NullCheck {
+    <<readonly>> - _maxContent : int = 250
+    + IfImageIsNull(imageURL:string?) : string
+    + IsAuthorFirstIndexIsNull(authors:IEnumerable<string>?) : bool
+    + PreviewLengthGreaterThanMaxContent(description:string?) : string
+}
+NullCheck o-> "_sb" StringBuilder
+@enduml

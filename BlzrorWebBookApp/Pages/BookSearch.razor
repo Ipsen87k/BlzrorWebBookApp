@@ -1,0 +1,113 @@
+﻿@page "/BookSearch"
+@using BlzrorWebBookApp.Data;
+@using BlzrorWebBookApp.Data.Button
+@inject IJSRuntime JS
+<html>
+  <head>
+    <meta charset="utf-8">
+</head>
+<body>
+	<h1>BookSearch</h1>
+	<div class="edit-form">
+		<EditForm Model="observeable" OnValidSubmit="ShowPage">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+				
+			<div class="row">
+				<div class="col-1">
+					<button type="submit" class="btn-primary">
+						<div class="icon">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" /></svg>
+						</div>
+					</button>
+				</div>
+				<div class="col-11">
+					<InputText id="title" @bind-Value=@observeable.BookTitle class="form-control" />
+				</div>
+
+			</div>
+		</EditForm>
+	</div>
+	@if (_storge.Count() > 0)
+	{
+		foreach (var item in _storge.ElementAt(CurrentPage).items)
+		{
+
+			<figure>
+				<img src="@nullCheck.IfImageIsNull(item.volumeInfo.imageLinks?.thumbnail)">
+				<figcaption>
+					<h4 class="title"><a href="@item.volumeInfo?.infoLink" target="_blank" rel="noopener noreferrer">@item.volumeInfo?.title</a></h4>
+					@if (nullCheck.IsAuthorFirstIndexIsNull(item.volumeInfo?.authors))
+					{
+						<p class="authors">No Authors Data</p>
+					}
+					else
+					{
+						foreach (var author in item.volumeInfo.authors)
+						{
+							<p class="authors">@author</p>
+						}
+					}
+					<p class="Publication-Date">@item.volumeInfo?.publishedDate</p>
+					<p class="preview">@nullCheck.PreviewLengthGreaterThanMaxContent(item.volumeInfo?.description)</p>
+				</figcaption>
+			</figure>
+
+		}
+		<ul class="items">
+			@for (var i = CurrentPage - 2; i <= CurrentPage + 2; i++)
+			{
+				var j = i;
+				if (i >= 0)
+				{
+					<li><button @onclick="()=>ShowPage(j)" >@i</button></li>
+				}
+
+			}
+		</ul>
+	}
+</body>
+</html>
+
+	
+
+@code {
+	private int CurrentPage = 0;
+
+
+	IObservable bookOvsrvable;
+	UserInputData observeable = new UserInputData();
+	NullCheck nullCheck = new();
+	IStorageData _storge = StorageData.Instance;
+	async Task ShowPage(int currentPage)
+	{
+		if (_storge.Count() - 1 < currentPage)
+		{
+			await bookOvsrvable.NotifyObserver(currentPage);
+			CurrentPage = currentPage;
+		}
+		else
+		{
+			CurrentPage = currentPage;
+		}
+		StateHasChanged();
+		await ScrollTop();
+	}
+	async Task ShowPage()
+	{
+		Init();
+		await bookOvsrvable.NotifyObserver();
+		StateHasChanged();
+		await ScrollTop();
+	}
+	void Init()
+	{
+		_storge.Clear();
+		CurrentPage = 0;
+	}
+	protected override void OnInitialized()
+	{
+		bookOvsrvable = new BookOvservable(observeable);
+	}
+	async Task ScrollTop() => await JS.InvokeVoidAsync("scrollTo", 0, 0);
+}

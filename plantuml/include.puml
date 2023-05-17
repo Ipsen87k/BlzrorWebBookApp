@@ -1,0 +1,212 @@
+@startuml
+class "AddSingleton`1"<T> {
+}
+abstract class "BaseSingleton`1"<T> {
+    # {static} _instance : T
+    {static} - _instanceLock : object
+    + {static} Instance : T <<get>>
+    # BaseSingleton()
+    # <<virtual>> Initialize() : void
+}
+interface ICreateInstace {
+    {abstract} {static} CreateInstace() : void
+}
+class BookOvservable {
+    + BookOvservable(userInputData:UserInputData)
+    + NotifyObserver() : void
+    + <<async>> NotifyObserver(times:int) : Task
+}
+class "IObserver`1"<T> {
+}
+IObservable <|-- BookOvservable
+BookOvservable --> "UserInputData" UserInputData
+BookOvservable o-> "observer<UserInputData>" "IObserver`1"
+class GetData {
+    - count : int = 0
+    + <<async>> Update(data:UserInputData, times:int) : Task
+}
+class "IObserver`1"<T> {
+}
+"IObserver`1" "<UserInputData>" <|-- GetData
+GetData o-> "URL" IQueryConvert
+GetData o-> "_counter" ICountable
+GetData o-> "GetHttp" GetHttpDataSingleton
+GetData o-> "storage" IStorageData
+class GetHttpDataSingleton {
+    - GetHttpDataSingleton()
+    + <<async>> GetLIbraryAPIAsync() : Task<ReceiveForJsonClass>
+    + <<async>> GetLIbraryAPIAsync(uri:Uri) : Task<ReceiveForJsonClass>
+    + <<async>> GetJsonAsnyc(uri:Uri) : Task<ReceiveForJsonClass>
+    + {static} CreateInstace() : void
+}
+class "BaseSingleton`1"<T> {
+}
+"BaseSingleton`1" "<GetHttpDataSingleton>" <|-- GetHttpDataSingleton
+ICreateInstace <|-- GetHttpDataSingleton
+GetHttpDataSingleton --> "URL" Uri
+GetHttpDataSingleton --> "Recever" ReceiveForJsonClass
+GetHttpDataSingleton o-> "_http" HttpClient
+interface IObservable {
+    NotifyObserver(times:int) : Task
+}
+interface "IObserver`1"<in T> {
+    Update(observable:T, times:int) : Task
+}
+interface IStorageData {
+    Add(item:ReceiveForJsonClass) : void
+    Clear() : void
+    GetElement(index:int) : ReceiveForJsonClass
+}
+class "IEnumerable`1"<T> {
+}
+"IEnumerable`1" "<ReceiveForJsonClass>" <|-- IStorageData
+class NullCheck {
+    <<readonly>> - _maxContent : int = 250
+    + IfImageIsNull(imageURL:string?) : string
+    + IsAuthorFirstIndexIsNull(authors:IEnumerable<string>?) : bool
+    + PreviewLengthGreaterThanMaxContent(description:string?) : string
+}
+NullCheck o-> "_sb" StringBuilder
+class ReceiveForJsonClass {
+}
+class Item {
+    + id : string <<get>> <<set>>
+    + etag : string <<get>> <<set>>
+    + selfLink : string <<get>> <<set>>
+}
+class Volumeinfo {
+    + title : string <<get>> <<set>>
+    + publishedDate : string <<get>> <<set>>
+    + pageCount : int <<get>> <<set>>
+    + printType : string <<get>> <<set>>
+    + maturityRating : string <<get>> <<set>>
+    + allowAnonLogging : bool <<get>> <<set>>
+    + contentVersion : string <<get>> <<set>>
+    + previewLink : string <<get>> <<set>>
+    + infoLink : string <<get>> <<set>>
+    + canonicalVolumeLink : string <<get>> <<set>>
+    + description : string <<get>> <<set>>
+    + averageRating : float <<get>> <<set>>
+    + ratingsCount : int <<get>> <<set>>
+    + publisher : string <<get>> <<set>>
+}
+class Readingmodes {
+    + text : bool <<get>> <<set>>
+    + image : bool <<get>> <<set>>
+}
+class Imagelinks {
+    + smallThumbnail : string <<get>> <<set>>
+    + thumbnail : string <<get>> <<set>>
+}
+class Panelizationsummary {
+    + containsEpubBubbles : bool <<get>> <<set>>
+    + containsImageBubbles : bool <<get>> <<set>>
+}
+class Industryidentifier {
+    + type : string <<get>> <<set>>
+    + identifier : string <<get>> <<set>>
+}
+class Saleinfo {
+    + country : string <<get>> <<set>>
+    + saleability : string <<get>> <<set>>
+    + isEbook : bool <<get>> <<set>>
+}
+class Accessinfo {
+    + country : string <<get>> <<set>>
+    + viewability : string <<get>> <<set>>
+    + embeddable : bool <<get>> <<set>>
+    + publicDomain : bool <<get>> <<set>>
+    + textToSpeechPermission : string <<get>> <<set>>
+    + webReaderLink : string <<get>> <<set>>
+    + accessViewStatus : string <<get>> <<set>>
+    + quoteSharingAllowed : bool <<get>> <<set>>
+}
+class Epub {
+    + isAvailable : bool <<get>> <<set>>
+}
+class Pdf {
+    + isAvailable : bool <<get>> <<set>>
+}
+class Searchinfo {
+    + textSnippet : string <<get>> <<set>>
+}
+Item --> "volumeInfo" Volumeinfo
+Item --> "saleInfo" Saleinfo
+Item --> "accessInfo" Accessinfo
+Item --> "searchInfo" Searchinfo
+Volumeinfo --> "readingModes" Readingmodes
+Volumeinfo --> "imageLinks" Imagelinks
+Volumeinfo --> "panelizationSummary" Panelizationsummary
+Accessinfo --> "epub" Epub
+Accessinfo --> "pdf" Pdf
+class StorageData <<sealed>> {
+    - StorageData()
+    + Add(item:ReceiveForJsonClass) : void
+    + Clear() : void
+    + GetElement(index:int) : ReceiveForJsonClass
+    + GetEnumerator() : IEnumerator<ReceiveForJsonClass>
+    - GetEnumerator() : IEnumerator
+    + {static} CreateInstace() : void
+}
+class "BaseSingleton`1"<T> {
+}
+class "HashSet`1"<T> {
+}
+"BaseSingleton`1" "<StorageData>" <|-- StorageData
+IStorageData <|-- StorageData
+ICreateInstace <|-- StorageData
+StorageData o-> "_receiveForJsonClasseDatas<ReceiveForJsonClass>" "HashSet`1"
+class UserInputData {
+    + BookTitle : string <<get>> <<set>>
+}
+class WeatherForecast {
+    + TemperatureC : int <<get>> <<set>>
+    + TemperatureF : int <<get>>
+    + Summary : string? <<get>> <<set>>
+}
+WeatherForecast --> "Date" DateOnly
+class WeatherForecastService {
+    + GetForecastAsync(startDate:DateOnly) : Task<WeatherForecast[]>
+}
+class ErrorModel {
+    + RequestId : string? <<get>> <<set>>
+    + ShowRequestId : bool <<get>>
+    + ErrorModel(logger:ILogger<ErrorModel>)
+    + OnGet() : void
+}
+class "ILogger`1"<T> {
+}
+PageModel <|-- ErrorModel
+ErrorModel --> "_logger<ErrorModel>" "ILogger`1"
+class Counter {
+    - _count : int = 0
+    + Increase : int <<get>> <<init>>
+    + Counter(increase:int)
+    + Count : int <<get>> <<set>>
+    + Increment() : void
+}
+ICountable <|-- Counter
+interface ICountable {
+    Count : int <<get>>
+    Increment() : void
+}
+class RegularSearch {
+    + QueryConvert(keyword:string, counter:int) : UriBuilder
+    + RegularSearch()
+}
+URLProcessBase <|-- RegularSearch
+IQueryConvert <|-- RegularSearch
+abstract class URLProcessBase {
+    <<readonly>> - _maxResult : string = "10"
+    # Connection(pram:string, keword:string) : string
+    # URLProcessBase()
+    # UriQueryConvert() : void
+}
+interface IQueryConvert {
+    QueryConvert(pram:string, counter:int) : UriBuilder
+}
+URLProcessBase o-> "StrBuilder" StringBuilder
+URLProcessBase o-> "_uriBuilder" UriBuilder
+URLProcessBase --> "UriData" UriBuilder
+URLProcessBase o-> "_queeryCollection" NameValueCollection
+@enduml

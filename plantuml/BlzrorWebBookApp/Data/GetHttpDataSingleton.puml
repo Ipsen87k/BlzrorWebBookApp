@@ -1,0 +1,16 @@
+@startuml
+class GetHttpDataSingleton {
+    - GetHttpDataSingleton()
+    + <<async>> GetLIbraryAPIAsync() : Task<ReceiveForJsonClass>
+    + <<async>> GetLIbraryAPIAsync(uri:Uri) : Task<ReceiveForJsonClass>
+    + <<async>> GetJsonAsnyc(uri:Uri) : Task<ReceiveForJsonClass>
+    + {static} CreateInstace() : void
+}
+class "BaseSingleton`1"<T> {
+}
+"BaseSingleton`1" "<GetHttpDataSingleton>" <|-- GetHttpDataSingleton
+ICreateInstace <|-- GetHttpDataSingleton
+GetHttpDataSingleton --> "URL" Uri
+GetHttpDataSingleton --> "Recever" ReceiveForJsonClass
+GetHttpDataSingleton o-> "_http" HttpClient
+@enduml

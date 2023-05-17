@@ -1,0 +1,5 @@
+@startuml
+interface IObservable {
+    NotifyObserver(times:int) : Task
+}
+@enduml

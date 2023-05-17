@@ -1,0 +1,19 @@
+@startuml
+class StorageData <<sealed>> {
+    - StorageData()
+    + Add(item:ReceiveForJsonClass) : void
+    + Clear() : void
+    + GetElement(index:int) : ReceiveForJsonClass
+    + GetEnumerator() : IEnumerator<ReceiveForJsonClass>
+    - GetEnumerator() : IEnumerator
+    + {static} CreateInstace() : void
+}
+class "BaseSingleton`1"<T> {
+}
+class "HashSet`1"<T> {
+}
+"BaseSingleton`1" "<StorageData>" <|-- StorageData
+IStorageData <|-- StorageData
+ICreateInstace <|-- StorageData
+StorageData o-> "_receiveForJsonClasseDatas<ReceiveForJsonClass>" "HashSet`1"
+@enduml

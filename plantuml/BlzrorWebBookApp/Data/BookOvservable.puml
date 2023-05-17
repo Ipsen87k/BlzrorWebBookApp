@@ -1,0 +1,12 @@
+@startuml
+class BookOvservable {
+    + BookOvservable(userInputData:UserInputData)
+    + NotifyObserver() : void
+    + <<async>> NotifyObserver(times:int) : Task
+}
+class "IObserver`1"<T> {
+}
+IObservable <|-- BookOvservable
+BookOvservable --> "UserInputData" UserInputData
+BookOvservable o-> "observer<UserInputData>" "IObserver`1"
+@enduml

@@ -1,0 +1,56 @@
+﻿body {
+
+}
+
+.row button {
+    display: inline-block;
+    width: 24px;
+    height: 38px;
+}
+
+.form-group InputText {
+    display:inline-block;
+}
+
+.edit-form {
+    display:inline-block;
+    margin-bottom: 15px;
+}
+figure {
+    display: flex;
+}
+    /*タイトル*/
+figure figcaption {
+    margin-left: 10px;
+
+}
+
+.title a {
+    text-decoration:none;
+}
+/*著者*/
+.authors {
+    display: inline-block;
+    margin-right: 1em;
+}
+/*出版日*/
+.Publication-Date {
+    display: inline-block;
+}
+
+
+.items {
+    display: flex;
+    justify-content: center;
+    padding-top:5px;
+}
+.items li {
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    
+}
+
+.items button:hover {
+    background-color:darkred;
+}

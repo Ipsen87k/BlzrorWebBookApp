@@ -1,0 +1,6 @@
+@startuml
+interface ICountable {
+    Count : int <<get>>
+    Increment() : void
+}
+@enduml

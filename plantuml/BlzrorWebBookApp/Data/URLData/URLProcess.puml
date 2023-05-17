@@ -1,0 +1,15 @@
+@startuml
+abstract class URLProcessBase {
+    <<readonly>> - _maxResult : string = "10"
+    # Connection(pram:string, keword:string) : string
+    # URLProcessBase()
+    # UriQueryConvert() : void
+}
+interface IQueryConvert {
+    QueryConvert(pram:string, counter:int) : UriBuilder
+}
+URLProcessBase o-> "StrBuilder" StringBuilder
+URLProcessBase o-> "_uriBuilder" UriBuilder
+URLProcessBase --> "UriData" UriBuilder
+URLProcessBase o-> "_queeryCollection" NameValueCollection
+@enduml

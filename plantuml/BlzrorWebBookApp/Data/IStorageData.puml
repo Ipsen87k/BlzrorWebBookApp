@@ -1,0 +1,10 @@
+@startuml
+interface IStorageData {
+    Add(item:ReceiveForJsonClass) : void
+    Clear() : void
+    GetElement(index:int) : ReceiveForJsonClass
+}
+class "IEnumerable`1"<T> {
+}
+"IEnumerable`1" "<ReceiveForJsonClass>" <|-- IStorageData
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class RegularSearch {
+    + QueryConvert(keyword:string, counter:int) : UriBuilder
+    + RegularSearch()
+}
+URLProcessBase <|-- RegularSearch
+IQueryConvert <|-- RegularSearch
+@enduml
